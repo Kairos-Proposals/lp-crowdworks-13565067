@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kairos Proposal — 設計図を、動く現実へ。</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-dark:#0B2545;
+    --navy:#13315C;
+    --blue-mid:#1B4F72;
+    --blue-light:#D6E4F0;
+    --paper:#F3F7FB;
+    --coral:#FF6B4A;
+    --ink:#102A43;
+    --line:rgba(255,255,255,0.14);
+    --line-dark:rgba(16,42,67,0.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.8;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.mono{
+    font-family:'JetBrains Mono', monospace;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    background:
+      linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(135deg, var(--navy-dark), var(--navy) 60%, var(--blue-mid));
+    background-size:42px 42px, 42px 42px, cover;
+    color:#fff;
+    padding:72px 0 96px;
+    overflow:hidden;
+  }
+  .hero::before, .hero::after{
+    content:"";
+    position:absolute;
+    width:18px;height:18px;
+    border:2px solid var(--coral);
+    opacity:.8;
+  }
+  .hero::before{top:28px;left:28px;border-right:none;border-bottom:none;}
+  .hero::after{bottom:28px;right:28px;border-left:none;border-top:none;}
+  .hero-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-size:12px;
+    letter-spacing:.14em;
+    padding:7px 16px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    color:#CFE0F2;
+    margin-bottom:28px;
+  }
+  .hero-tag .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--coral);
+    box-shadow:0 0 0 4px rgba(255,107,74,.2);
+  }
+  .hero h1{
+    font-size:clamp(32px, 5.4vw, 58px);
+    font-weight:800;
+    line-height:1.35;
+    letter-spacing:.01em;
+    margin-bottom:22px;
+  }
+  .hero h1 .accent{color:var(--coral);}
+  .hero p.lead{
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    font-size:16px;
+    max-width:560px;
+    color:#D6E4F0;
+    margin-bottom:36px;
+  }
+  .hero-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .hero-meta span{
+    font-size:12px;
+    font-family:'JetBrains Mono', monospace;
+    padding:8px 14px;
+    background:rgba(255,255,255,.07);
+    border:1px solid var(--line);
+    border-radius:6px;
+    color:#CFE0F2;
+  }
+  .blueprint-mark{
+    position:absolute;
+    right:-40px;
+    bottom:-60px;
+    font-size:min(42vw, 320px);
+    font-family:'JetBrains Mono', monospace;
+    font-weight:800;
+    color:rgba(255,255,255,.045);
+    line-height:1;
+    user-select:none;
+    pointer-events:none;
+  }
+
+  /* ===== SECTION COMMON ===== */
+  section{
+    padding:88px 0;
+    position:relative;
+  }
+  .section-head{
+    margin-bottom:48px;
+  }
+  .kicker{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:.2em;
+    color:var(--blue-mid);
+    margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .kicker::before{
+    content:"";
+    width:28px;height:2px;
+    background:var(--coral);
+  }
+  .section-head h2{
+    font-size:clamp(24px, 3.4vw, 34px);
+    font-weight:700;
+    color:var(--navy-dark);
+    letter-spacing:.01em;
+  }
+
+  /* ===== UNDERSTANDING ===== */
+  .understand{
+    background:#fff;
+    border-top:1px solid var(--line-dark);
+    border-bottom:1px solid var(--line-dark);
+  }
+  .understand-grid{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:48px;
+    align-items:center;
+  }
+  .u-card{
+    background:var(--paper);
+    border:1px solid var(--line-dark);
+    border-left:4px solid var(--coral);
+    padding:28px 26px;
+    border-radius:4px;
+  }
+  .u-card p{
+    font-size:15px;
+    color:#33506E;
+  }
+  .u-card + .u-card{margin-top:18px;}
+  .u-lead{
+    font-size:19px;
+    font-weight:700;
+    color:var(--navy-dark);
+    line-height:1.9;
+  }
+  .u-lead .mark{
+    color:var(--coral);
+    font-family:'JetBrains Mono', monospace;
+  }
+  @media (max-width:860px){
+    .understand-grid{grid-template-columns:1fr;}
+  }
+
+  /* ===== VALUES ===== */
+  .values{
+    background:
+      radial-gradient(circle at 90% 10%, rgba(27,79,114,.06), transparent 40%),
+      var(--paper);
+  }
+  .value-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
+    gap:22px;
+  }
+  .v-card{
+    background:#fff;
+    border:1px solid var(--line-dark);
+    border-radius:8px;
+    padding:30px 24px;
+    transition:transform .25s ease, box-shadow .25s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .v-card::after{
+    content:"";
+    position:absolute;
+    top:0;left:0;right:0;
+    height:3px;
+    background:linear-gradient(90deg, var(--coral), var(--blue-mid));
+  }
+  .v-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 18px 40px rgba(11,37,69,.12);
+  }
+  .v-num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--coral);
+    letter-spacing:.1em;
+    margin-bottom:14px;
+    display:block;
+  }
+  .v-card h3{
+    font-size:17px;
+    color:var(--navy-dark);
+    margin-bottom:12px;
+    line-height:1.5;
+  }
+  .v-card p{
+    font-size:13.5px;
+    color:#4A6378;
+  }
+
+  /* ===== PROCESS ===== */
+  .process{
+    background:var(--navy-dark);
+    color:#fff;
+    background-image:
+      linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size:36px 36px;
+  }
+  .process .section-head h2{color:#fff;}
+  .process .kicker{color:#8FB4D9;}
+  .timeline{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:16px;
+    position:relative;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    top:22px;left:0;right:0;
+    height:1px;
+    background:var(--line);
+    z-index:0;
+  }
+  .t-step{
+    position:relative;
+    z-index:1;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:24px 16px 20px;
+  }
+  .t-dot{
+    width:14px;height:14px;
+    border-radius:50%;
+    background:var(--coral);
+    margin-bottom:16px;
+    box-shadow:0 0 0 5px rgba(255,107,74,.18);
+  }
+  .t-day{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:#9FC1E0;
+    letter-spacing:.08em;
+    margin-bottom:8px;
+  }
+  .t-step h4{
+    font-size:14.5px;
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .t-step p{
+    font-size:12px;
+    color:#B9CEE3;
+  }
+  @media (max-width:900px){
+    .timeline{grid-template-columns:repeat(2,1fr);}
+    .timeline::before{display:none;}
+  }
+
+  /* ===== CLOSING ===== */
+  .closing{
+    background:linear-gradient(160deg, var(--blue-light), #fff 70%);
+    text-align:center;
+  }
+  .closing-box{
+    max-width:680px;
+    margin:0 auto;
+    background:#fff;
+    border:1px solid var(--line-dark);
+    border-radius:14px;
+    padding:56px 40px;
+    box-shadow:0 30px 60px rgba(11,37,69,.08);
+  }
+  .closing-box .kicker{justify-content:center;}
+  .closing-box .kicker::before{display:none;}
+  .closing-box h2{
+    font-size:clamp(22px,3.4vw,30px);
+    color:var(--navy-dark);
+    margin-bottom:18px;
+    font-weight:800;
+  }
+  .closing-box p{
+    font-size:14.5px;
+    color:#44607A;
+    margin-bottom:34px;
+  }
+  .cta-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--navy-dark);
+    color:#fff;
+    padding:16px 36px;
+    border-radius:999px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px;
+    letter-spacing:.06em;
+    transition:background .25s ease, transform .25s ease;
+  }
+  .cta-btn:hover{
+    background:var(--coral);
+    transform:translateY(-2px);
+  }
+  .foot-note{
+    margin-top:26px;
+    font-size:12px;
+    color:#8299B0;
+  }
+  footer{
+    padding:30px 0;
+    text-align:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:#9FB2C5;
+    background:var(--navy-dark);
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="hero-tag"><span class="dot"></span>PROPOSAL FROM KAIROS — Web制作・システム開発チーム</span>
+    <h1>設計図は、もう完成している。<br>あとは<span class="accent">寸分違わぬ速度</span>で、<br>動く現実に変えるだけです。</h1>
+    <p class="lead">
+      株式会社ARCYELL様が支給するデザインを、崩さず・遅れず・8ページ丸ごと実装する。
+      Kairosは、この「急募」の裏にある「次も頼める相手を探している」というニーズに応えます。
+    </p>
+    <div class="hero-meta">
+      <span>PAGES: 8</span>
+      <span>FEE: ¥50,000〜¥70,000</span>
+      <span>STACK: HTML / CSS / JS</span>
+      <span>RESPONSIVE: PC / SP</span>
+    </div>
+  </div>
+  <div class="blueprint-mark">&lt;/&gt;</div>
+</section>
+
+<section class="understand">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">UNDERSTANDING</div>
+      <h2>この募集文から、私たちが読み取ったこと</h2>
+    </div>
+    <div class="understand-grid">
+      <div>
+        <p class="u-lead">
+          <span class="mark">「急募」</span>の文字の奥にあるのは、単なる人手不足ではなく<br>
+          <span class="mark">「デザインを正確に、速く、気持ちよく実装してくれる相手」</span>への渇望だと考えています。
+        </p>
+      </div>
+      <div>
+        <div class="u-card">
+          <p><strong style="color:var(--navy-dark)">デザイン支給＝再現性が命。</strong><br>Figma/PSD、あるいはAI生成デザインからでも、ピクセル単位で忠実に組み上げる実装力が求められています。</p>
+        </div>
+        <div class="u-card">
+          <p><strong style="color:var(--navy-dark)">「継続案件あり」の一文は本気。</strong><br>今回の8ページは入口であり、評価されれば次のLP・次のサイトへと続く長期的なパートナーシップの入口です。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="values">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">WHAT KAIROS BRINGS</div>
+      <h2>Kairosが提供できる価値</h2>
+    </div>
+    <div class="value-grid">
+      <div class="v-card">
+        <span class="v-num">01</span>
+        <h3>デザイン完全再現コーディング</h3>
+        <p>Figma・Photoshop・AI生成デザインいずれにも対応。余白1pxまで仕様として扱い、意図のズレない実装を行います。</p>
+      </div>
+      <div class="v-card">
+        <span class="v-num">02</span>
+        <h3>PC／SP完全レスポンシブ</h3>
+        <p>単なる縮小ではなく、ブレイクポイントごとに「読みやすさ」「押しやすさ」を再設計した実装を行います。</p>
+      </div>
+      <div class="v-card">
+        <span class="v-num">03</span>
+        <h3>必要箇所への動きの実装</h3>
+        <p>スクロール演出・ホバー・フェードインなど、デザインの意図を損なわない範囲でのアニメーション実装に対応します。</p>
+      </div>
+      <div class="v-card">
+        <span class="v-num">04</span>
+        <h3>SEOを意識したHTML構造</h3>
+        <p>見出し階層・セマンティックタグを整理し、公開後の検索評価も見据えたマークアップで納品します。</p>
+      </div>
+      <div class="v-card">
+        <span class="v-num">05</span>
+        <h3>WordPress組み込み相談可</h3>
+        <p>静的コーディングで終わらせず、必要であればテーマ化・投稿機能の組み込みまでチームで対応可能です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="process">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">PROCESS</div>
+      <h2>進め方・スケジュールの目安</h2>
+    </div>
+    <div class="timeline">
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-day">DAY 0</div>
+        <h4>ヒアリング・受領</h4>
+        <p>デザインデータ・仕様・優先ページを確認し、認識をすり合わせます。</p>
+      </div>
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-day">DAY 1-3</div>
+        <h4>コーディング着手</h4>
+        <p>進捗をページ単位で共有しながら、8ページを計画的に実装します。</p>
+      </div>
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-day">DAY 4</div>
+        <h4>レスポンシブ／動き調整</h4>
+        <p>PC・SP双方の表示確認とアニメーションの最終調整を行います。</p>
+      </div>
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-day">DAY 5</div>
+        <h4>崩れ確認・修正対応</h4>
+        <p>主要ブラウザ・端末での表示チェックと、柔軟な修正対応を行います。</p>
+      </div>
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-day">DAY 6-</div>
+        <h4>納品・継続のご相談</h4>
+        <p>納品後、品質にご満足いただければ次回案件へのスムーズな移行をご提案します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="wrap">
+    <div class="closing-box">
+      <div class="kicker">NEXT ACTION</div>
+      <h2>まずは、デザインデータを見せてください。</h2>
+      <p>
+        8ページの構成と優先度を確認した上で、具体的な納期・お見積りをすぐにご提示します。<br>
+        今回限りではなく、長くお付き合いできるコーディングパートナーとして、Kairosをお使いください。
+      </p>
+      <a href="#" class="cta-btn">&lt;/&gt; Kairosに相談する</a>
+      <div class="foot-note">自己紹介・実績・納期目安・希望報酬・WordPress対応可否、すぐにご提出可能です。</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  KAIROS — Web制作・システム開発チーム ｜ Proposal for 株式会社ARCYELL
+</footer>
+
+</body>
+</html>
